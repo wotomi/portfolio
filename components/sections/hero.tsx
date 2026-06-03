@@ -14,6 +14,8 @@ export function Hero() {
       seed: "Subhadip",
       size: 320,
       backgroundColor: ["transparent"],
+      hairColor: ["000000"], // Black hair
+      hair: ["short07"], // Messy/textured style with good coverage
     }).toString();
 
     return `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
