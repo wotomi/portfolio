@@ -44,10 +44,10 @@ export function Work() {
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <Link href={`/work/${project.id}`}>
-                  <SpotlightCard className="h-full overflow-hidden hover:border-primary/50 cursor-pointer group">
-                    {/* Video Demo Banner */}
-                    {project.videoUrl && (
+                <SpotlightCard className="h-full overflow-hidden hover:border-primary/50 group">
+                  {/* Video Demo Banner */}
+                  {project.videoUrl && (
+                    <Link href={`/work/${project.id}`} className="block">
                       <div className="aspect-video w-full">
                         <VideoPlayer
                           src={project.videoUrl}
@@ -58,65 +58,63 @@ export function Work() {
                           className="w-full h-full rounded-none"
                         />
                       </div>
-                    )}
+                    </Link>
+                  )}
 
-                    <div className="p-6 flex flex-col h-full">
-                      <div className="flex-1 space-y-4">
-                        <div className="flex items-start justify-between">
-                          <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
-                            {project.title}
-                          </h3>
-                          <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all group-hover:translate-x-1 flex-shrink-0" />
-                        </div>
-
-                        <p className="text-muted-foreground leading-relaxed line-clamp-3">
-                          {project.description}
-                        </p>
-
-                        <div className="flex flex-wrap gap-2 pt-2">
-                          {project.tags.slice(0, 3).map((tag) => (
-                            <span
-                              key={tag}
-                              className="px-3 py-1 text-xs rounded-full bg-secondary text-secondary-foreground"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                  <div className="p-6 flex flex-col h-full">
+                    <Link href={`/work/${project.id}`} className="flex-1 space-y-4 cursor-pointer">
+                      <div className="flex items-start justify-between">
+                        <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                          {project.title}
+                        </h3>
+                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-all group-hover:translate-x-1 flex-shrink-0" />
                       </div>
 
-                      {/* Links - Always at bottom */}
-                      {(project.githubUrl || project.liveUrl) && (
-                        <div className="flex gap-3 pt-4 mt-4 border-t border-border">
-                          {project.githubUrl && (
-                            <a
-                              href={project.githubUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                              <FaGithub className="w-4 h-4" />
-                              Code
-                            </a>
-                          )}
-                          {project.liveUrl && (
-                            <a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                              <ExternalLink className="w-4 h-4" />
-                              Live
-                            </a>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </SpotlightCard>
-                </Link>
+                      <p className="text-muted-foreground leading-relaxed line-clamp-3">
+                        {project.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        {project.tags.slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-3 py-1 text-xs rounded-full bg-secondary text-secondary-foreground"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </Link>
+
+                    {/* Links - Always at bottom */}
+                    {(project.githubUrl || project.liveUrl) && (
+                      <div className="flex gap-3 pt-4 mt-4 border-t border-border">
+                        {project.githubUrl && (
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                          >
+                            <FaGithub className="w-4 h-4" />
+                            Code
+                          </a>
+                        )}
+                        {project.liveUrl && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            Live
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </SpotlightCard>
               </motion.div>
             ))}
           </div>

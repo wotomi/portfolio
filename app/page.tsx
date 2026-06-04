@@ -15,7 +15,21 @@ import { AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    // Only show loading screen on first visit in this session
+    if (typeof window !== "undefined") {
+      const hasSeenLoading = sessionStorage.getItem("hasSeenLoading");
+      return !hasSeenLoading;
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    // Mark loading as seen when it completes
+    if (!isLoading && typeof window !== "undefined") {
+      sessionStorage.setItem("hasSeenLoading", "true");
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     // Prevent scroll during loading
