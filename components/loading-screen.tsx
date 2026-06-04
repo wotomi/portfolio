@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 interface LoadingScreenProps {
@@ -8,25 +8,23 @@ interface LoadingScreenProps {
 }
 
 export function LoadingScreen({ onComplete }: LoadingScreenProps) {
-  const [count, setCount] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Animate counter from 0 to 1
-    const duration = 2000; // 2 seconds
-    const steps = 100;
-    const increment = 1 / steps;
+    const duration = 2000;
+    const steps = 60;
     const stepDuration = duration / steps;
-
     let currentStep = 0;
+
     const interval = setInterval(() => {
       currentStep++;
-      setCount(currentStep * increment);
+      setProgress(currentStep / steps);
 
       if (currentStep >= steps) {
         clearInterval(interval);
         setTimeout(() => {
           onComplete();
-        }, 500);
+        }, 300);
       }
     }, stepDuration);
 
@@ -37,72 +35,131 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     <motion.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: "#000000" }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black overflow-hidden"
     >
-      {/* Subtle grain on loading screen too */}
-      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E")`, backgroundSize: "256px 256px", opacity: 0.04, mixBlendMode: "overlay" as const }} />
-
-      {/* Animated circles */}
-      <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.1, 0.3] }}
-        transition={{ duration: 3, repeat: Infinity }}
-        className="absolute w-96 h-96 rounded-full bg-primary/10 blur-3xl"
-      />
-
-      {/* Content */}
-      <div className="relative z-10 text-center">
+      {/* Lightweight animated topology-style blobs matching home page */}
+      <div className="absolute inset-0">
+        {/* Dark teal blob - top left */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="space-y-8"
-        >
-          {/* Counter */}
-          <div className="flex items-center justify-center gap-6">
-            <motion.span
-              key={Math.floor(count * 10) / 10}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              className="text-8xl md:text-9xl font-bold bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent"
-            >
-              {count.toFixed(2)}
-            </motion.span>
-          </div>
+          animate={{
+            scale: [1, 1.08, 1],
+            opacity: [0.6, 0.75, 0.6],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -top-[10%] -left-[5%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px]"
+          style={{
+            background: "radial-gradient(ellipse at 40% 40%, rgba(14,74,74,0.35) 0%, rgba(14,74,74,0.15) 35%, transparent 70%)",
+            filter: "blur(60px)"
+          }}
+        />
 
-          {/* Arrow */}
+        {/* Dark purple blob - bottom right */}
+        <motion.div
+          animate={{
+            scale: [1, 1.05, 1],
+            opacity: [0.5, 0.7, 0.5],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+          className="absolute -bottom-[10%] -right-[5%] w-[45vw] h-[45vw] max-w-[550px] max-h-[550px]"
+          style={{
+            background: "radial-gradient(ellipse at 55% 55%, rgba(45,16,96,0.30) 0%, rgba(45,16,96,0.12) 40%, transparent 70%)",
+            filter: "blur(70px)"
+          }}
+        />
+      </div>
+
+      {/* 0 → 1 animation - 0 stays, arrow slides, 1 blurs in */}
+      <div className="relative z-10 flex items-center justify-center gap-8 sm:gap-12 md:gap-16 px-4">
+        {/* "0" appears and stays */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{
+            opacity: 1,
+            scale: 1
+          }}
+          transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+          className="relative"
+        >
+          <span
+            className="font-bold bg-gradient-to-br from-white via-gray-100 to-gray-400 bg-clip-text text-transparent select-none"
+            style={{
+              fontSize: "clamp(6rem, 20vw, 16rem)",
+              lineHeight: 0.9,
+              letterSpacing: "-0.05em"
+            }}
+          >
+            0
+          </span>
           <motion.div
-            animate={{ x: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="text-4xl text-primary"
+            animate={{ opacity: [0.3, 0.6, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute inset-0 blur-2xl bg-violet-500/20 -z-10"
+          />
+        </motion.div>
+
+        {/* Arrow slides in horizontally from left */}
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          animate={{
+            opacity: progress > 0.3 ? 1 : 0,
+            x: progress > 0.3 ? 0 : -100
+          }}
+          transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+          className="relative flex-shrink-0"
+        >
+          <span
+            className="text-emerald-400 select-none"
+            style={{
+              fontSize: "clamp(3rem, 10vw, 8rem)",
+              lineHeight: 1,
+            }}
           >
             →
-          </motion.div>
-
-          {/* Subtitle */}
+          </span>
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="space-y-2"
-          >
-            <p className="text-2xl md:text-3xl font-bold text-foreground">
-              0 to 1
-            </p>
-            <p className="text-base md:text-lg text-muted-foreground">
-              Building products from scratch
-            </p>
-          </motion.div>
+            animate={{ opacity: [0.4, 0.8, 0.4] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="absolute inset-0 blur-xl bg-emerald-500/30 -z-10"
+          />
+        </motion.div>
 
-          {/* Progress bar */}
-          <div className="w-64 h-1 bg-secondary rounded-full overflow-hidden mx-auto">
-            <motion.div
-              initial={{ width: "0%" }}
-              animate={{ width: `${count * 100}%` }}
-              className="h-full bg-gradient-to-r from-primary to-accent"
-            />
-          </div>
+        {/* "1" comes from blur */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: progress > 0.6 ? 1 : 0,
+          }}
+          transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+          className="relative"
+          style={{
+            filter: progress > 0.6 ? `blur(${Math.max(0, (1 - progress) * 40)}px)` : 'blur(40px)'
+          }}
+        >
+          <span
+            className="font-bold bg-gradient-to-br from-white via-gray-100 to-gray-400 bg-clip-text text-transparent select-none"
+            style={{
+              fontSize: "clamp(6rem, 20vw, 16rem)",
+              lineHeight: 0.9,
+              letterSpacing: "-0.05em"
+            }}
+          >
+            1
+          </span>
+          <motion.div
+            animate={{ opacity: [0.3, 0.6, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+            className="absolute inset-0 blur-2xl bg-amber-500/20 -z-10"
+          />
         </motion.div>
       </div>
     </motion.div>
