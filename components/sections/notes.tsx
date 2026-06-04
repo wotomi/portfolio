@@ -34,22 +34,34 @@ export function Notes() {
             </Link>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {/* Masonry-inspired asymmetric grid */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5 auto-rows-fr">
             {recentNotes.map((note, index) => (
               <motion.div
                 key={note.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  delay: index * 0.15,
+                  duration: 0.7,
+                  ease: [0.32, 0.72, 0, 1]
+                }}
                 viewport={{ once: true }}
+                className={
+                  index === 0 ? "lg:col-span-3" :
+                  index === 1 ? "lg:col-span-2" :
+                  "lg:col-span-5"
+                }
               >
                 <Link href={`/notes/${note.id}`}>
-                  <SpotlightCard className="h-full p-6 hover:border-primary/50 cursor-pointer group">
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-3">
-                        <HiOutlineDocumentText className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-1" />
-                        <div className="space-y-2 flex-1">
-                          <h3 className="font-semibold leading-tight group-hover:text-primary transition-colors">
+                  <SpotlightCard className="h-full cursor-pointer group">
+                    <div className="p-8">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 flex-shrink-0">
+                          <HiOutlineDocumentText className="w-6 h-6" />
+                        </div>
+                        <div className="space-y-3 flex-1">
+                          <h3 className="text-lg font-bold leading-tight group-hover:text-primary transition-colors">
                             {note.title}
                           </h3>
                           <p className="text-sm text-muted-foreground leading-relaxed">
@@ -58,17 +70,19 @@ export function Notes() {
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-border">
-                        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                      <div className="flex items-center justify-between pt-4 mt-4 border-t border-border/30">
+                        <div className="flex items-center gap-4 text-xs text-muted-foreground font-mono">
                           <span>{new Date(note.date).toLocaleDateString()}</span>
                           {note.readTime && (
-                            <span className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
+                            <span className="flex items-center gap-1.5">
+                              <Clock className="w-3.5 h-3.5" />
                               {note.readTime}
                             </span>
                           )}
                         </div>
-                        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-all group-hover:translate-x-1" />
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300 group-hover:translate-x-1">
+                          <ArrowRight className="w-4 h-4" />
+                        </div>
                       </div>
                     </div>
                   </SpotlightCard>

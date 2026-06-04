@@ -74,7 +74,7 @@ const skills = [
 
 export function Skills() {
   return (
-    <section id="skills" className="py-24 px-4 bg-secondary/20">
+    <section id="skills" className="py-24 px-4">
       <div className="container max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -85,31 +85,50 @@ export function Skills() {
         >
           <SectionHeading>Skills & Stack</SectionHeading>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {/* Staggered Cards with Premium Depth */}
+          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
             {skills.map((skillGroup, groupIndex) => (
               <motion.div
                 key={skillGroup.category}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: groupIndex * 0.1, duration: 0.5 }}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  delay: groupIndex * 0.15,
+                  duration: 0.8,
+                  ease: [0.32, 0.72, 0, 1]
+                }}
                 viewport={{ once: true }}
-                className="space-y-4"
+                className="group relative"
               >
-                <div className="flex items-center gap-2 text-lg font-semibold">
-                  {skillGroup.icon}
-                  <h3>{skillGroup.category}</h3>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {skillGroup.technologies.map((tech) => (
-                    <div
-                      key={tech.name}
-                      className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-background/50 backdrop-blur-sm hover:bg-accent/50 transition-colors duration-200"
-                    >
-                      {tech.icon && <span className="text-base">{tech.icon}</span>}
-                      <span className="text-sm">{tech.name}</span>
+                {/* Single glass surface */}
+                <div className="relative rounded-2xl glass p-8 transition-all duration-500">
+                    {/* Category header with icon */}
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/8">
+                      <div className="w-10 h-10 rounded-xl bg-white/8 flex items-center justify-center text-foreground group-hover:bg-white/15 transition-all duration-500">
+                        {skillGroup.icon}
+                      </div>
+                      <h3 className="text-xl font-bold tracking-tight">{skillGroup.category}</h3>
                     </div>
-                  ))}
+
+                    {/* Technology grid */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {skillGroup.technologies.map((tech, idx) => (
+                        <motion.div
+                          key={tech.name}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{
+                            delay: groupIndex * 0.15 + idx * 0.05,
+                            duration: 0.4
+                          }}
+                          viewport={{ once: true }}
+                          className="flex items-center gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/6 hover:border-white/12 transition-all duration-300 hover:scale-105 cursor-default backdrop-blur-sm"
+                        >
+                          {tech.icon && <span className="text-lg flex-shrink-0">{tech.icon}</span>}
+                          <span className="text-xs font-medium truncate">{tech.name}</span>
+                        </motion.div>
+                      ))}
+                    </div>
                 </div>
               </motion.div>
             ))}

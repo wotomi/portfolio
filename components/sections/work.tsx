@@ -9,6 +9,7 @@ import { VideoPlayer } from "@/components/ui/video-player";
 import { ExternalLink, ArrowRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { projects } from "@/lib/data/projects";
+import { cn } from "@/lib/utils";
 
 export function Work() {
   const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
@@ -35,16 +36,27 @@ export function Work() {
             </Link>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {/* Asymmetric Bento Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-8 gap-6 auto-rows-fr">
             {featuredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  delay: index * 0.15,
+                  duration: 0.7,
+                  ease: [0.32, 0.72, 0, 1]
+                }}
                 viewport={{ once: true }}
+                className={cn(
+                  // Asymmetric column spans
+                  index === 0 && "md:col-span-5",
+                  index === 1 && "md:col-span-3",
+                  index === 2 && "md:col-span-8"
+                )}
               >
-                <SpotlightCard className="h-full overflow-hidden hover:border-primary/50 group">
+                <SpotlightCard className="h-full group">
                   {/* Video Demo Banner */}
                   {project.videoUrl && (
                     <Link href={`/work/${project.id}`} className="block">

@@ -63,25 +63,29 @@ export function Library() {
               <HiOutlineBookOpen className="w-6 h-6" />
               Currently Reading
             </h3>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2">
               {currentReading.map((book, index) => (
                 <motion.div
                   key={book.title}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  initial={{ opacity: 0, x: -30, scale: 0.95 }}
+                  whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                  transition={{
+                    delay: index * 0.15,
+                    duration: 0.7,
+                    ease: [0.32, 0.72, 0, 1]
+                  }}
                   viewport={{ once: true }}
-                  className="p-6 rounded-xl border border-border bg-background/50 backdrop-blur-sm hover:border-primary/50 transition-all group"
+                  className="group relative rounded-2xl glass transition-all duration-700 p-6"
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-16 rounded bg-gradient-to-br from-primary/20 to-primary/10 border border-primary/20 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold mb-1 group-hover:text-primary transition-colors">
-                        {book.title}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">{book.author}</p>
+                    <div className="flex items-start gap-5">
+                      <div className="w-16 h-20 rounded-lg bg-gradient-to-br from-primary/30 via-primary/20 to-primary/10 border-2 border-primary/30 flex-shrink-0 shadow-lg shadow-primary/10 group-hover:shadow-xl group-hover:shadow-primary/20 transition-all duration-500" />
+                      <div className="flex-1">
+                        <h4 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors">
+                          {book.title}
+                        </h4>
+                        <p className="text-sm text-muted-foreground">{book.author}</p>
+                      </div>
                     </div>
-                  </div>
                 </motion.div>
               ))}
             </div>
@@ -93,32 +97,38 @@ export function Library() {
               <HiOutlineCpuChip className="w-6 h-6" />
               Research Interests
             </h3>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2">
               {researchInterests.map((interest, index) => {
                 const Icon = interest.icon;
                 return (
                   <motion.div
                     key={interest.title}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    initial={{ opacity: 0, x: -30, scale: 0.95 }}
+                    whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                    transition={{
+                      delay: index * 0.15,
+                      duration: 0.7,
+                      ease: [0.32, 0.72, 0, 1]
+                    }}
                     viewport={{ once: true }}
-                    className="relative p-6 rounded-xl border border-border bg-background/50 backdrop-blur-sm hover:border-primary/50 transition-all group overflow-hidden"
+                    className="group relative rounded-2xl glass transition-all duration-700 p-6 overflow-hidden"
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${interest.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                    <div className="relative flex items-start gap-3">
-                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors flex-shrink-0">
-                        <Icon className="w-6 h-6" />
+                      {/* Colored gradient overlay on hover */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${interest.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
+
+                      <div className="relative flex items-start gap-4">
+                        <div className="w-14 h-14 rounded-2xl bg-white/8 flex items-center justify-center text-foreground group-hover:bg-white/15 transition-all duration-500 flex-shrink-0">
+                          <Icon className="w-7 h-7" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-bold text-lg mb-2 group-hover:text-foreground transition-colors">
+                            {interest.title}
+                          </h4>
+                          <p className="text-sm text-muted-foreground leading-relaxed">
+                            {interest.description}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-semibold mb-1 group-hover:text-foreground transition-colors">
-                          {interest.title}
-                        </h4>
-                        <p className="text-sm text-muted-foreground">
-                          {interest.description}
-                        </p>
-                      </div>
-                    </div>
                   </motion.div>
                 );
               })}

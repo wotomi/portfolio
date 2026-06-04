@@ -29,7 +29,7 @@ export function Lab() {
 
   return (
     <section id="lab" className="relative py-24 px-4 overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-secondary/10 to-background" />
+
 
       <div className="container max-w-6xl mx-auto">
         <motion.div
@@ -51,48 +51,58 @@ export function Lab() {
             </Link>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Offset grid with variable heights */}
+          <div className="grid gap-6 md:grid-cols-6 auto-rows-fr">
             {featuredExperiments.map((experiment, index) => {
               const Icon = iconMap[experiment.title] || HiOutlineSparkles;
               return (
                 <motion.div
                   key={experiment.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                  initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{
+                    delay: index * 0.15,
+                    duration: 0.7,
+                    ease: [0.32, 0.72, 0, 1]
+                  }}
                   viewport={{ once: true }}
+                  className={
+                    index === 0 ? "md:col-span-4" :
+                    index === 1 ? "md:col-span-2" :
+                    "md:col-span-6"
+                  }
                 >
                   <Link href={`/lab/${experiment.id}`}>
                     <SpotlightCard
-                      className="h-full p-6 hover:border-primary/50 cursor-pointer group"
+                      className="h-full cursor-pointer group"
                       enableScale
                     >
-                      <div className="space-y-4">
+                      <div className="p-8 space-y-6">
                         <div className="flex items-start justify-between">
-                          <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                            <Icon className="w-6 h-6" />
+                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary group-hover:from-primary group-hover:to-primary group-hover:text-primary-foreground transition-all duration-500 shadow-lg shadow-primary/0 group-hover:shadow-primary/20">
+                            <Icon className="w-7 h-7" />
                           </div>
                           <span
-                            className={`px-2 py-1 text-xs rounded-full border ${
+                            className={`px-3 py-1.5 text-xs font-semibold rounded-full border-2 ${
                               statusColors[experiment.status]
-                            }`}
+                            } transition-all duration-300`}
                           >
                             {experiment.status}
                           </span>
                         </div>
                         <div>
-                          <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                          <h3 className="font-bold text-xl mb-3 group-hover:text-primary transition-colors">
                             {experiment.title}
                           </h3>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-muted-foreground leading-relaxed">
                             {experiment.description}
                           </p>
                         </div>
-                        <div className="flex flex-wrap gap-1.5 pt-2">
+                        <div className="flex flex-wrap gap-2 pt-2">
                           {experiment.tags.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
-                              className="px-2 py-0.5 text-xs rounded bg-secondary"
+                              className="px-3 py-1 text-xs font-medium rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
                             >
                               {tag}
                             </span>

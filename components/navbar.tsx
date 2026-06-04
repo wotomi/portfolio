@@ -120,10 +120,13 @@ export function Navbar() {
 
             {/* Contact Button */}
             <motion.a
-              href="mailto:hi@dipmind.space"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=hi@dipmind.space"
+              target="_blank"
+              rel="noopener noreferrer"
               className="relative px-5 py-2 ml-2 text-sm font-semibold rounded-full bg-white/90 text-black hover:bg-white transition-all duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              title="Send email to hi@dipmind.space"
             >
               <span className="relative z-10">Contact</span>
             </motion.a>
@@ -177,9 +180,12 @@ export function Navbar() {
 
               {/* Mobile Contact Button */}
               <a
-                href="mailto:hi@dipmind.space"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=hi@dipmind.space"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block w-full text-center px-4 py-3 mt-2 rounded-xl text-sm font-semibold bg-white/90 text-black hover:bg-white transition-all duration-200"
                 onClick={() => setMobileMenuOpen(false)}
+                title="Send email to hi@dipmind.space"
               >
                 Contact
               </a>

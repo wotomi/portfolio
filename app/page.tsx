@@ -15,21 +15,24 @@ import { AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(() => {
-    // Only show loading screen on first visit in this session
-    if (typeof window !== "undefined") {
-      const hasSeenLoading = sessionStorage.getItem("hasSeenLoading");
-      return !hasSeenLoading;
-    }
-    return true;
-  });
+  // Always start loading=true on server to avoid hydration mismatch.
+  // After mount, check sessionStorage and skip the loader if already seen.
+  const [isLoading, setIsLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Mark loading as seen when it completes
-    if (!isLoading && typeof window !== "undefined") {
+    setMounted(true);
+    const hasSeenLoading = sessionStorage.getItem("hasSeenLoading");
+    if (hasSeenLoading) {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading && mounted) {
       sessionStorage.setItem("hasSeenLoading", "true");
     }
-  }, [isLoading]);
+  }, [isLoading, mounted]);
 
   useEffect(() => {
     // Prevent scroll during loading
@@ -39,6 +42,10 @@ export default function Home() {
       document.body.style.overflow = "unset";
     }
   }, [isLoading]);
+
+  // Don't render anything until we've checked sessionStorage client-side
+  // This prevents a one-frame flash of the loader on return visits
+  if (!mounted) return null;
 
   return (
     <>
@@ -73,8 +80,11 @@ export default function Home() {
 
                 <div className="flex items-center gap-6">
                   <a
-                    href="mailto:hi@dipmind.space"
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=hi@dipmind.space"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    title="Send email to hi@dipmind.space"
                   >
                     hi@dipmind.space
                   </a>

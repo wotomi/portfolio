@@ -23,15 +23,11 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center py-24 px-4 overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/20" />
-        <div className="absolute top-1/4 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
-      </div>
+      {/* Subtle vignette to ground the section without competing with the global background */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-background/30 pointer-events-none" />
 
-      <div className="container max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-[1fr,1.2fr] gap-16 items-center">
+      <div className="container max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-[1.1fr,1fr] gap-20 items-center">
           {/* Left side - Avatar */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -82,71 +78,73 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="space-y-6 order-1 lg:order-2"
+            transition={{ duration: 0.8, ease: [0.32, 0.72, 0, 1], delay: 0.2 }}
+            className="space-y-8 order-1 lg:order-2"
           >
             {/* Status line - moved to top */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.3 }}
+              transition={{ delay: 0.3, duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border bg-secondary/50 backdrop-blur-sm text-sm text-muted-foreground">
-                <span className="relative flex h-2 w-2">
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border-2 border-primary/20 bg-primary/5 backdrop-blur-xl text-sm font-medium">
+                <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary shadow-lg shadow-primary/50"></span>
                 </span>
-                Currently: Business Analyst @ Enverus • AI Tutor @ xAI
+                <span className="text-foreground">
+                  Currently: Business Analyst @ Enverus • AI Tutor @ xAI
+                </span>
               </div>
             </motion.div>
 
-            {/* Name */}
+            {/* Name with tighter tracking */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
+              transition={{ delay: 0.4, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
             >
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight">
+              <h1 className="text-6xl md:text-7xl lg:text-[7rem] font-bold tracking-[-0.02em] leading-[0.95]">
                 <span className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
                   Subhadip
                 </span>
               </h1>
             </motion.div>
 
-            {/* Headline */}
+            {/* Headline with optical line-height */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight"
+              transition={{ delay: 0.5, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-[-0.01em] leading-[1.15]"
             >
               Building Intelligent Systems{" "}
-              <span className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+              <span className="block mt-2 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
                 From Embedded Devices to AI Agents
               </span>
             </motion.h2>
 
-            {/* Subheadline */}
+            {/* Subheadline with max-width for readability */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-              className="text-lg md:text-xl text-muted-foreground"
+              transition={{ delay: 0.6, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+              className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[600px]"
             >
               Business Analyst, AI Engineer, and Builder exploring the intersection
               of software, data, and artificial intelligence.
             </motion.p>
 
-            {/* CTAs */}
+            {/* CTAs with nested icon */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="flex flex-wrap gap-4 pt-4"
+              transition={{ delay: 0.7, duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+              className="flex flex-wrap gap-4 pt-6"
             >
               <Button
                 size="lg"
-                className="group"
+                className="group relative"
                 onClick={() =>
                   document
                     .getElementById("work")
@@ -154,11 +152,15 @@ export function Hero() {
                 }
               >
                 View My Work
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                {/* Nested trailing icon circle */}
+                <span className="ml-2 w-6 h-6 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 group-hover:translate-x-1 group-hover:bg-white/20">
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </span>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
+                className="group"
                 onClick={() =>
                   document
                     .getElementById("contact")

@@ -6,12 +6,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 export function About() {
   return (
     <section id="about" className="relative py-24 px-4 overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-primary/5 to-accent/5 rounded-full blur-3xl animate-slow-spin" />
-      </div>
+
 
       <div className="container max-w-4xl mx-auto">
         <motion.div
